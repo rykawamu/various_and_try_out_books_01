@@ -1,4 +1,13 @@
-# Re:VIEW Template
+# はじめに
+
+このリポジトリは、「TechBooster」の**Re:VIEW用の書籍テンプレート**を利用して作成したものです。
+テンプレートを利用して、内容を修正して**技術同人誌**を書くために利用します。
+
+このリポジトリの本は、いろいろと試行錯誤しながら書いてみる。
+
+なお、これ以降のREADMEの内容は、「[Re:VIEW Template](https://github.com/TechBooster/ReVIEW-Template)」のREADMEの内容です。
+
+## Re:VIEW Template
 
 このリポジトリはRe:VIEW用の書籍テンプレートです。Re:VIEWバージョン5.5に対応します。
 メンテナンスはTechBoosterが行っています。
