@@ -2,12 +2,16 @@ PREDEF:
   - preface.re
 
 CHAPS:
+  # 会社のテックブログ再開させたけど、再開後はいらない子になった話
   - article.re
-  # 会社のテックブログ再開
-  # エリクサーチ
-  # Phoenix 1.7
-  # Replit
   # 対話型AI: パープレキシティ
+  # - article.re
+  # エリクサーチ：Elixirの開発ガイド
+  # - elixir_lang_info.re
+  # Replitで始めるElixir
+  # - elixir_replit.re
+  # Phoenix 1.7に触れてみる
+  # - elixir_phoenix_v_1_7.re
 
 APPENDIX:
 
