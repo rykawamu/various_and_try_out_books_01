@@ -25,23 +25,23 @@ Perplexity AIの特徴を挙げます。
 
 @<href>{https://www.perplexity.ai/}
 
-//indepimage[Preplexity_AskAnything][Perplexity AIのページ][scale=0.6]{
+//indepimage[Perplexity_AskAnything][Perplexity AIのページ][scale=0.6]{
 //}
 
 検索するには、「Ask Anyting」と書かれている入力欄に検索キーワードを入力します。
 
-//indepimage[Preplexity_AskAnything_2][Ask Anytingにキーワードを入力する][scale=0.6]{
+//indepimage[Perplexity_AskAnything_2][Ask Anytingにキーワードを入力する][scale=0.6]{
 //}
 
 検索キーワードの入力後にEnterキーを押下すると、Perplexity AIが検索結果を出力されます。
 検索結果には、参照元のリンクもあります。
 
-//indepimage[Preplexity_AskAnything_3][Perplexity AIによる検索結果][scale=0.6]{
+//indepimage[Perplexity_AskAnything_3][Perplexity AIによる検索結果][scale=0.6]{
 //}
 
 なお、画面上部にはツイートリンクがあり、Perplexity AIの検索結果をTwitterで共有することもできます。
 
-//indepimage[Preplexity_AskAnything_4][検索結果の共有][scale=0.6]{
+//indepimage[Perplexity_AskAnything_4][検索結果の共有][scale=0.6]{
 //}
 
 === 検索エンジンに登録する
@@ -119,18 +119,18 @@ Perplexity AIとChatGPTは、どちらも自然言語処理の技術を用いて
 
 まずはあらすじについて。
 
-//indepimage[Preplexity_diff_01_01][Perplexity AIに聞くあらすじ][scale=0.6]{
+//indepimage[Perplexity_diff_01_01][Perplexity AIに聞くあらすじ][scale=0.6]{
 //}
 
-//indepimage[Preplexity_diff_01_02][ChatGPTに聞くあらすじ][scale=0.6]{
+//indepimage[Perplexity_diff_01_02][ChatGPTに聞くあらすじ][scale=0.6]{
 //}
 
 次に主人公について。
 
-//indepimage[Preplexity_diff_02_01][Perplexity AIに聞く主人公][scale=0.6]{
+//indepimage[Perplexity_diff_02_01][Perplexity AIに聞く主人公][scale=0.6]{
 //}
 
-//indepimage[Preplexity_diff_02_02][ChatGPTに聞く主人公][scale=0.6]{
+//indepimage[Perplexity_diff_02_02][ChatGPTに聞く主人公][scale=0.6]{
 //}
 
 なお、Perplexity AIの回答はどちらも正解です。参照元のリンクも表示しているので、その根拠の信憑性も判断ができます。
