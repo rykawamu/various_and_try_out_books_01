@@ -4,6 +4,8 @@ PREDEF:
 CHAPS:
   # 会社のテックブログ再開させたけど、再開後はいらない子になった話
   - article.re
+  # 技術書典13でスポンサーでYouTube出演した時の話
+  - youtube_debut.re
   # 対話型AI：パープレキシティ
   - perplexity_ai.re
   # エリクサーチ：Elixirの開発ガイド
