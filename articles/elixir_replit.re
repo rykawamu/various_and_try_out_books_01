@@ -135,7 +135,65 @@ Repl上でのElixirの実行はうまくいきました。
 
 === APIからデータを取得してみる
 
-（工事中）
+つづいて、Web上のAPIを実行するコードを書いてみましょう。
+
+今度は、Zennにあるスクラップ記事@<fn>{zenn_scrap_mzryuka_url_01}の内容で、APIのレスポンスを出力するプログラムを書きます。
+
+//footnote[zenn_scrap_mzryuka_url_01][@<href>{https://zenn.dev/mzryuka/scraps/50ac14004dbd05}]
+
+こちらは@<b>{connpass}@<fn>{connpass_url}の公開API@<fn>{connpass_api_url}を利用して、2023年5月に開催されるElixir関連のイベントを取得する処理となっています。
+
+//footnote[connpass_url][IT勉強会支援プラットフォーム。URL: @<href>{https://connpass.com/}]
+
+//footnote[connpass_api_url][connpass APIリファレンス。URL: @<href>{https://connpass.com/about/api/}]
+
+
+まずは、Replを作成します。
+前回同様にテンプレートでは"Elixir"を選択し、タイトルには"ReptitElixirGetConnpassEvents"とでも入力しておきましょう。
+
+//indepimage[replit_ex_create_03][タイトルの入力][scale=0.6]{
+//}
+
+Replを作成したら、つぎは"main.exs"の実装です。
+
+本機能では、以下のHEXライブラリを利用しています。
+
+ * HTTPoison@<fn>{httpoison_hex_url} : Elixirで利用できるHTTP client。HTTP経由でAPIをコールするのに利用。
+ * Jason@<fn>{jason_hex_url} : Elixir製のJSONライブラリ。APIのレスポンスを処理するために利用。
+
+//footnote[httpoison_hex_url][@<href>{https://hex.pm/packages/httpoison}]
+
+//footnote[jason_hex_url][@<href>{https://hex.pm/packages/jason}]
+
+これら2つのライブラリをインストールするために、"main.exs"へライブラリをインストールする記述を追記します。
+コードの最後の「IO.puts」は、動作確認用のコードです。なくても動作には影響しません。
+
+//list[hex_lib_install][main.exsに対してHEXライブラリをインストールする処理を記述]{
+## Mix.install/2を利用して、exs上でhttpoisonとjasonをインストールする
+Mix.install([
+  {:httpoison, "~> 2.0"},
+  {:jason, "~> 1.4"}
+])
+
+IO.puts("done Mix.install/2")
+//}
+
+
+//indepimage[replit_ex_mix_install_01][タイトルの入力][scale=0.6]{
+//}
+
+//indepimage[replit_ex_mix_install_02][タイトルの入力][scale=0.6]{
+//}
+
+//indepimage[replit_ex_mix_install_03][タイトルの入力][scale=0.6]{
+//}
+
+//indepimage[replit_ex_mix_install_04][タイトルの入力][scale=0.6]{
+//}
+
+//indepimage[replit_ex_mix_install_05][タイトルの入力][scale=0.6]{
+//}
+
 
 == Phoeninxを実行してみる
 
