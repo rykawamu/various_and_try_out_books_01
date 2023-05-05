@@ -6,11 +6,12 @@
 インストールでトラブルになってしまうそれっきり、となるケースもあるので、インストールしないで済ませられるのは非常に便利ですね。
 
 また、コラボレーション機能も有しており、URLを共有するだけで複数人で同時にリアルタイムで編集を行うこともできます。
-さらに、教育向けソリューションとして「@<b>{Teams for Education}@<fn>{teams_for_education_url}」も提供してくれている優れものです。
+さらに、教育向けソリューションとして「@<b>{Teams for Education}@<fn>{teams_for_education_url}@<fn>{teams_for_education_doc_url}」も提供してくれている優れものです。
 
 //footnote[replit_url][@<href>{https://replit.com/}]
 
 //footnote[teams_for_education_url][@<href>{https://replit.com/site/teams-for-education}]
+//footnote[teams_for_education_doc_url][@<href>{https://docs.replit.com/category/teams-for-education}]
 
 そんな優れもののReplitを利用して、自分の推し言語である「@<b>{Elixir}」への入門をいざなってみます。
 Elixirをすでに知っている人も、Replit上でコーディングしてみたいという方であれば、本章をお読みください。
@@ -46,11 +47,91 @@ Replitを利用するには、Replitへのアカウント登録が必要です�
 
 つづけて、Elixirでプログラミングを実施してみましょう。
 
-Qiitaでは
+Replitでプログラミングを開始する際には、Workspace上に"@<b>{Repl}@<fn>{repl_is}の作成が必要です。
+
+//footnote[repl_is][Replとは、REPL（read-eval-print loop）をもじって作られた単語です。]
+
+Replとは、リアルタイムでコードを記述して実行できるインタラクティブなプログラミング環境です。
+
+　
+
+Replを作成するには、画面左上にある"@<b>{+Create}"ボタンをクリックします。
+
+//indepimage[replit_ex_create_01][+Createボタンをクリック][scale=0.8]{
+//}
+
+クリック後に「@<b>{Create a Repl}」のダイアログが表示されるので、@<b>{Template}欄に利用する言語を入力します。
+
+今回はElixirを利用する想定ですので"@<i>{elixir}"と入力します。
+入力内容に合致するテンプレートが表示されますので、利用するテンプレートで「"Elixir"」を選択してください。
+
+//indepimage[replit_ex_create_02][テンプレートの選択][scale=0.6]{
+//}
+
+テンプレート選択後、今度は@<b>{Title}欄にタイトル（プロジェクト名と同じ）を入力してください。
+Repl側で任意の名前がすでに入っていたりしますので、それを利用してもよいです。
+
+//indepimage[replit_ex_create_03][タイトルの入力][scale=0.8]{
+//}
+
+Titleの入力後に「@<b>{+Crreate Repl}」ボタンをクリックすると、Replが作成されます。
+
+//indepimage[replit_ex_create_04][Replの作成完了][scale=0.8]{
+//}
+
+これで準備は整いました。
+
+つぎは具体的にプログラミングを進めてみましょう。
+
+なお、詳細なReplの作成／操作方法については、公式のドキュメント@<fn>{introduction_to_the_workspace_doc_url}を参照ください。
+
+//footnote[introduction_to_the_workspace_doc_url][@<href>{https://docs.replit.com/programming-ide/introduction-to-the-workspace}]
 
 === コードをキラキラさせてみる
 
-（工事中）
+それでは、具体的にプログラミングを行ってみましょう。
+
+まずは手慣らしで簡単なコードを書いてみましょう。
+とはいえ、ハローワールドもありきたりなので、見た目が少しだけ目立つコードを書いてみましょう。
+
+ということで、Qiitaに掲載されている、@<b>{@nako_sleep_9h}さんの記事「Elixirのコードを気軽に触ってみよう！キラキラさせたり草を生やすよ」@<fn>{qiita_nako_url_01}から、ソースコードを拝借します。
+
+//footnote[qiita_nako_url_01][@<href>{https://qiita.com/nako_sleep_9h/items/97b69132babcb953cf7d}]
+
+//list[kirakira_char][文字をキラキラさせるコード]{
+1..255
+|> Enum.map(& "#{IO.ANSI.color(&1)}*")
+|> IO.puts
+//}
+
+　
+
+まずは、Replの作成から。
+テンプレートで"Elixir"を選択してから、タイトルに"kirakira"と入力してReplを作成します。
+
+//indepimage[repl_kirakira_01][Replの作成完了][scale=0.6]{
+//}
+
+Replの作成後、先述の「文字をキラキラさせるコード」を「@<b>{main.exs}」@<fn>{what_is_exs}に記述します。
+
+//footnote[what_is_exs][exsとはElixirで利用する拡張子の1つで、バイトコードへコンパイルせずにスクリプトベースで実行する際に用いる]
+
+//indepimage[repl_kirakira_02][main.exsにコードを記述する][scale=0.6]{
+//}
+
+コードを記述後、画面上部にある「@<b>{▶Run}」をクリックします。
+
+//indepimage[repl_kirakira_03][Runをクリックして実行完了][scale=0.6]{
+//}
+
+RUNボタンをクリックすると、main.exsが実行されて画面右側にあるConsole（コンソール）に、実行結果が表示されます。
+
+みてわかるように、コンソール上の文字「*」がさまざまな色で表示されているのが確認できます。
+
+　
+
+Repl上でのElixirの実行はうまくいきました。
+それでは、つぎはもう少し凝った処理を実行してみましょう。
 
 === APIからデータを取得してみる
 
