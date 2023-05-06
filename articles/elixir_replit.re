@@ -57,7 +57,7 @@ Replとは、リアルタイムでコードを記述して実行できるイン�
 
 Replを作成するには、画面左上にある"@<b>{+Create}"ボタンをクリックします。
 
-//indepimage[replit_ex_create_01][+Createボタンをクリック][scale=0.8]{
+//indepimage[replit_ex_create_01][+Createボタンをクリック][scale=0.6]{
 //}
 
 クリック後に「@<b>{Create a Repl}」のダイアログが表示されるので、@<b>{Template}欄に利用する言語を入力します。
@@ -151,7 +151,7 @@ Repl上でのElixirの実行はうまくいきました。
 まずは、Replを作成します。
 前回同様にテンプレートでは"Elixir"を選択し、タイトルには"ReptitElixirGetConnpassEvents"とでも入力しておきましょう。
 
-//indepimage[replit_ex_create_03][タイトルの入力][scale=0.6]{
+//indepimage[replit_ex_create_05][APIからデータ取得用のRepl作成][scale=0.6]{
 //}
 
 Replを作成したら、つぎは"main.exs"の実装です。
@@ -263,7 +263,7 @@ Console欄に、「検索結果の総件数」「含まれる検索結果の件�
 
 == Phoeninx LiveViewを実行してみる
 
-Elixirの動作確認ができたので、今度は@<b>{Phoenix}を試してみましょう。
+Elixirの動作確認ができたので、今度は@<b>{Phoenix}@<fn>{phienix_01}を試してみましょう。
 
 //footnote[phienix_01][@<href>{https://www.phoenixframework.org/}]
 
