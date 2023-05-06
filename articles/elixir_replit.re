@@ -124,7 +124,7 @@ Replの作成後、先述の「文字をキラキラさせるコード」を「@
 //indepimage[repl_kirakira_03][Runをクリックして実行完了][scale=0.6]{
 //}
 
-RUNボタンをクリックすると、main.exsが実行されて画面右側にあるConsole（コンソール）に、実行結果が表示されます。
+Runボタンをクリックすると、main.exsが実行されて画面右側にあるConsole（コンソール）に、実行結果が表示されます。
 
 みてわかるように、コンソール上の文字「*」がさまざまな色で表示されているのが確認できます。
 
@@ -178,22 +178,88 @@ Mix.install([
 IO.puts("done Mix.install/2")
 //}
 
-
-//indepimage[replit_ex_mix_install_01][タイトルの入力][scale=0.6]{
+//indepimage[replit_ex_mix_install_01][ライブラリインストール用のコードを入力][scale=0.6]{
 //}
 
-//indepimage[replit_ex_mix_install_02][タイトルの入力][scale=0.6]{
+コード入力後、Runボタンをクリックします。
+
+すると、Console側で、@<i>{Mix.install/2}の実行が行われます。
+
+この段階では、"@<b>{HEX}"自身がインストールされていませんので、「@<i>{Shall I Install Hex?}」と聞かれます。
+インストールを継続するので、「@<i>{Y}」を入力してEnterキーを押下してください。
+
+//indepimage[replit_ex_mix_install_02][Hexのインストール確認][scale=0.6]{
 //}
 
-//indepimage[replit_ex_mix_install_03][タイトルの入力][scale=0.6]{
+Hexのインストールを許諾すると、同時に「httpoison」と「jason」および依存するライブラリがインストールされます。
+
+その後、"parse_trans"というライブラリのビルドに必要な"@<b>{reber3}"ライブラリのインストールも促されます。
+Hexの時と同じように、「@<i>{Y}」を入力してEnterキーを押下してインストールを進めてください。
+
+//indepimage[replit_ex_mix_install_03][reber3のインストール確認][scale=0.6]{
 //}
 
-//indepimage[replit_ex_mix_install_04][タイトルの入力][scale=0.6]{
+インストールが完了すると、Consoleに「@<i>{done Mix.install/2"}」が出力されています。
+なお、「Hex」と「reber3」のインストールは一度だけです。
+
+//indepimage[replit_ex_mix_install_05][ディレクトリ構成の確認][scale=0.6]{
 //}
 
-//indepimage[replit_ex_mix_install_05][タイトルの入力][scale=0.6]{
+インストール完了後、画面右にある「@<b>{Files}」をみると、「.hex」ディレクトリや「.mix」ディレクトリができているのを確認できます。
+これで、必要なライブラリがインストールされました。
+
+　
+
+つづけて、ConnpassAPIにHTTPアクセスしてレスポンスデータを出力してみましょう
+
+main.exsのソースコードを以下のように書き換えます。
+
+//list[connpass_api_accessand_print_event][main.exsを修正してconnpassのイベント情報を取得する]{
+## Mix.install/2を利用して、exs上でhttpoisonとjasonをインストールする
+Mix.install([
+  {:httpoison, "~> 2.0"},
+  {:jason, "~> 1.4"}
+])
+
+base_request_url = "https://connpass.com/api/v1/event/?"
+url = Enum.join([base_request_url,
+  "/api/v1/event/?",
+  "ym=202305&",
+  "keyword=elixir&",
+  "order=2&",
+  "count=10"], "")
+IO.puts("url : #{url}")
+
+# エラーは一旦無視して、レスポンスがただしい場合のみを想定する
+# エラーも考慮するときは、HTTPoison.getを利用。
+response = HTTPoison.get!(url)
+result = response
+|> Map.get(:body)
+|> Jason.decode!()
+
+"results_available: #{result["results_available"]}"
+|> IO.puts()
+
+"results_returned: #{result["results_returned"]}"
+|> IO.puts()
+
+result["events"]
+|> Enum.map(fn(m) -> %{title: m["title"], url: m["series"]["url"]} end)
+|> IO.inspect()
 //}
 
+こちらのプログラムは、大まかに以下の事を実施しています。
+
+ * 「2023年5月に開催予定」の「"elixir"をキーワードにもつ」イベントデータを「開催日時順」に「10件」取得するためのパラメータを作成
+ * 「HTTPoison.get!/3」でconnpass APIにアクセスし、レスポンスのbodayを「Jason.decode!/2」でjson形式にデコードする
+ * デコードしたデータから、「検索結果の総件数」「含まれる検索結果の件数」「イベント情報のタイトルとURL」を取り出してコンソールに出力
+
+それでは、、このコードを実行してみましょう。画面上部の「Run」ボタンをクリックしてください。
+
+//indepimage[replit_for_elixir_http_access_01][connpass APIへのアクセス結果][scale=0.8]{
+//}
+
+Console欄に、「検索結果の総件数」「含まれる検索結果の件数」「イベント情報のタイトルとURL」が出力されました。
 
 == Phoeninxを実行してみる
 
