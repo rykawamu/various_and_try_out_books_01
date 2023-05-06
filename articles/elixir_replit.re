@@ -261,9 +261,151 @@ result["events"]
 
 Console欄に、「検索結果の総件数」「含まれる検索結果の件数」「イベント情報のタイトルとURL」が出力されました。
 
-== Phoeninxを実行してみる
+== Phoeninx LiveViewを実行してみる
 
-（工事中）
+Elixirの動作確認ができたので、今度は@<b>{Phoenix}を試してみましょう。
+
+//footnote[phienix_01][@<href>{https://www.phoenixframework.org/}]
+
+Phoeinxは、Elixir製のWebアプリケーションフレームワークです。RubyにおけるRuby on Railsの立ち位置です。
+
+そして、Phoeinxには@<b>{Phoenix LiveView}@<fn>{phienix_live_view_01}という機能があります。
+Phoenix LiveViewを簡単に言えば、JavaScriptを直接書かずにSPA（シングルページアプリケーション）が作れる機能です。
+
+//footnote[phienix_live_view_01][@<href>{https://github.com/phoenixframework/phoenix_live_view}]
+
+ここでは、このPhoenix LiveViewの機能をReplit上で試してみましょう。
+
+　
+
+ということで、Qiitaに掲載されている、@<b>{@t-yamanashi}さんの記事「replitでLiveViewを体験しよう」@<fn>{qiita_yamanashi_url_01}を参考にして実施します。
+
+//footnote[qiita_yamanashi_url_01][@<href>{https://qiita.com/t-yamanashi/items/fbc5c7e97cd68f3998cb}]
+
+　
+
+まずは、Replの作成から。
+テンプレートで"Phoenix"を選択してから、タイトルに"SampleLiveView"と入力して、「Create Repl」ボタンをクリックしてReplを作成します。
+
+//indepimage[create_repl_for_phoenix_02][Phoenix用のReplを作成する][scale=0.8]{
+//}
+
+Replへ画面遷移後、画面上部のRunボタンをクリックすると、Phoenix@<fn>{repl_for_phoenix_version}が起動します。
+しばらくすると、Webview欄にPhoenixのTOPページが表示されます。
+
+//footnote[repl_for_phoenix_version][「mix phx -v」で確認したところ、執筆時点でのPhoenixのバージョンは1.6.6でした]
+
+//indepimage[create_repl_for_phoenix_03][Repl上でPhoenixが起動する][scale=0.7]{
+//}
+
+　
+
+つづいて、LiveViewの機能を追加します。
+
+ステップとしては、以下の手順となります。
+
+ * mix phx.gen.liveコマンドの実行
+ * ルーティングの設定
+ * マイグレーションの実行
+ * 新しいページへの遷移URLの追加
+ * 新しいページの確認
+
+
+まずは、以下の「@<i>{mix phx.gen.live}」コマンドを画面中のShell欄で実行します。
+
+//list[repl_phoenix_liveview_cmd_01][mix phx.gen.liveの実行]{
+mix phx.gen.live Accounts User users name:string
+//}
+
+すると、LiveView用のファイルが作成され、同時にルーティング用の設定が表示されます。
+
+//indepimage[create_repl_for_phoenix_04][mix phx.gen.liveの実行結果][scale=0.7]{
+//}
+
+つぎに、ルーティングの設定になります。
+
+ルーティング用の「lib/phoenix_app_web/router.ex」ファイル中に、前述のmix phx.gen.liveの実行で表示された設定を追記します。
+
+「@<b>{scope "/", PhoenixAppWeb do}」のブロック内に、Shell欄に出力された「live 〜」で始まるルーティングの設定を追記します。
+
+//list[repl_phoenix_liveview_cmd_02][lib/phoenix_app_web/router.exの修正]{
+  scope "/", PhoenixAppWeb do
+    pipe_through :browser
+
+    # ここから
+    live "/users", UserLive.Index, :index
+    live "/users/new", UserLive.Index, :new
+    live "/users/:id/edit", UserLive.Index, :edit
+
+    live "/users/:id", UserLive.Show, :show
+    live "/users/:id/show/edit", UserLive.Show, :edit
+    # ここまで追記
+
+    get "/", PageController, :index
+  end
+//}
+
+//indepimage[create_repl_for_phoenix_05][router.exへのルーティングの追記][scale=0.7]{
+//}
+
+ルーティング設定の追加したら、今度は「@<i>{mix ecto.migrate}」を実行します。
+
+画面中のShell欄でmix ecto.migrateコマンドを実行し、マイグレーションを実行します。
+
+//list[repl_phoenix_liveview_cmd_03][mix ecto.migrateの実行]{
+mix ecto.migrate
+//}
+
+//indepimage[create_repl_for_phoenix_06][mix ecto.migrateの実行][scale=0.6]{
+//}
+
+マイグレーションの実行後は、1度Phoeinxを立ち上げなおします。
+画面上部の「@<b>{Stop}」ボタンをクリックすると、Phoeninxのプロセスが停止します。
+その後、Phoenixが自動で立ち上がります。
+
+　
+
+つづいて、新しいページへの遷移URLの追加します。
+
+Qiitaの記事では新しいタブでページを参照できましたが、私の環境では「@<b>{SSL_ERROR_INTERNAL_ERROR_ALERT}」によって新しいタブでページを開けませんでした。
+
+そのため、Webview欄上で追加した画面へ遷移できるようにTOPページ中へ画面遷移のURLを埋め込みます。
+
+修正対象ファイルは「@<i>{lib/phoenix_app_web/templates/page/index.html.heex}」となります。
+
+index.html.heex中の「@<b>{v1.6 Changelog}」の下に、以下のコードを追記します。
+
+//list[repl_phoenix_liveview_cmd_04][index.html.heex中へ、ページ遷移を追記]{
+      <li>
+        <a href="/users">新規追加したページ</a>
+      </li>
+//}
+
+//indepimage[create_repl_for_phoenix_07][index.html.heex中へ「/users」のパスを追記][scale=0.6]{
+//}
+
+パスの追記後、TOPページには「/users」への遷移リンク「@<b>{新規追加したページ}」が追加表示されています。
+
+//indepimage[create_repl_for_phoenix_08][「/users」への遷移リンクが追加][scale=0.6]{
+//}
+
+さいごに、遷移リンク「@<b>{新規追加したページ}」をクリックして、新規画面を表示します。
+
+//indepimage[create_repl_for_phoenix_09][新規追加したページの表示][scale=0.6]{
+//}
+
+「New Users」をクリックして入力ダイアログを表示します。そして、Name欄に"名前"を入力してEnterを入力してください。
+
+//indepimage[create_repl_for_phoenix_10][Nameの入力][scale=0.6]{
+//}
+
+入力ダイアログで入力した名前が、そのまま画面一覧上に表示されています。
+
+//indepimage[create_repl_for_phoenix_11][Nameの入力後の一覧][scale=0.6]{
+//}
+
+お疲れ様でした。
+こうして、Replit上でPhoenix LiveViewの機能が確認できました。
 
 == まとめ
 
@@ -277,5 +419,8 @@ ReplitのElixirは、執筆時点では最新（v1.14、OTP25）の1つ前のバ
 このバージョン差異が気にならないのであれば、非常に便利なツールであると言えます。
 
 本章では紹介しませんでしたが、コラボレーション機能もありペアプロ／モブプロにも利用できそうで、いつか使ってみたい機能です。
+また、Teams for Educationを実際の授業で利用された例@<fn>{qiita_teams_for_education_yamazaki_01}もあるようです。
+
+//footnote[qiita_teams_for_education_yamazaki_01][@<href>{https://qiita.com/zacky1972/items/a9afb1c411202d0cd160}]
 
 もし本章を読まれてReplitを気になられた方は、ぜひアカウントを作ってElixir（や他の言語）を触ってみてください。
