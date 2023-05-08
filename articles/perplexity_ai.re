@@ -1,4 +1,4 @@
-= 対話型AI：パープレキシティ
+= 対話型AI：Perplexity AI
 
 == Perplexity AIとは
 
@@ -15,12 +15,11 @@ Perplexity AIの特徴を挙げます。
 
 検索エンジンといえば比較対象はまずGoogle検索になりますが、Googleとは異なりSEOや広告による検索結果に変動要素がありません。
 
-ですので、「ググる」よりも求めている情報にt辿りつきやすくなっています。
+ですので、「ググる」よりも求めている情報に辿りつきやすくなっています。
 
 == Perplexity AIを触ってみる
 
-それでは、実際に触っってみましょう。
-
+それでは、実際に触ってみましょう。
 以下のURLにアクセスします。
 
 @<href>{https://www.perplexity.ai/}
@@ -28,7 +27,7 @@ Perplexity AIの特徴を挙げます。
 //indepimage[Perplexity_AskAnything][Perplexity AIのページ][scale=0.8]{
 //}
 
-検索するには、「Ask Anyting」と書かれている入力欄に検索キーワードを入力します。
+検索するには、「Ask Anyting」と書かれた入力欄に検索キーワードを入力します。
 
 //indepimage[Perplexity_AskAnything_2][Ask Anytingにキーワードを入力する][scale=0.8]{
 //}
