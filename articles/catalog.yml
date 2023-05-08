@@ -13,7 +13,7 @@ CHAPS:
   # Replitで始めるElixir
   - elixir_replit.re
   # Phoenix 1.7に触れてみる
-  - elixir_phoenix_v_1_7.re
+  # - elixir_phoenix_v_1_7.re
 
 APPENDIX:
   - contributing_chat_gpt.re
