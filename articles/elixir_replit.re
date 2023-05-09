@@ -405,7 +405,152 @@ index.html.heex中の「@<b>{v1.6 Changelog}」の下に、以下のコードを
 //}
 
 お疲れ様でした。
-こうして、Replit上でPhoenix LiveViewの機能が確認できました。
+Replit上でPhoenix LiveViewの機能が確認できました。
+
+=== Dog APIを呼び出してみる
+
+Phoenix LiveView側でも外部APIを呼び出す例を紹介します。
+
+「@<b>{Dog API}@<fn>{dog_api_url}」を利用して、API経由で取得した犬の画像を表示する機能を作ります。
+
+//footnote[dog_api_url][@<href>{https://dog.ceo/dog-api/documentation/random}]
+
+なお、誌面の都合上、ソースコードの提示と実行結果だけを提示します。
+補足はZennのスクラップ記事@<fn>{zenn_mzryuka_dog_api_url}に記載したので、詳細が知りたい方はご参照ください。
+
+//footnote[zenn_mzryuka_dog_api_url][@<href>{https://zenn.dev/mzryuka/scraps/3a8d2bca2d2e31}]
+
+以下、実施する手順となります。
+
+ * mix.exsの修正
+ * lib/phoenix_app_web/live/dog_image_live/index.exを作成
+ * lib/phoenix_app_web/live/dog_image_live/index.html.heexを作成
+ * lib/phoenix_app_web/router.exを修正
+ * lib/phoenix_app_web/templates/page/index.html.heexを修正
+
+それでは順番に記載します。
+
+　
+
+mix.exsの「defp deps do」へ、@<b>{Req}@<fn>{hex_lib_req_url}を追加します。
+その後、Shell欄で「mix deps.get」を実施します。
+
+//footnote[hex_lib_req_url][@<href>{https://hexdocs.pm/req/readme.html}]
+
+//list[repl_phoenix_liveview_dogapi_01][mix.exsの修正]{
+  defp deps do
+    [
+      {:phoenix, "~> 1.6.6"},
+〜（中略）〜
+      {:jason, "~> 1.2"},
+      {:req, "~> 0.3"},            # ←これを追記
+      {:plug_cowboy, "~> 2.5"}
+    ]
+  end
+//}
+
+　
+
+つづいて、Dog APIを処理するための機能を作成します。
+
+まずは、LiveView用のファイルを配置するディレクトリを用意します。
+lib/phoenix_app_web下に、「live」フォルダ、「dog_image_live」フォルダを作成します。
+その後、2つのファイルを作成します。
+
+こちらはAPIの処理を呼び出す処理です。
+
+//list[repl_phoenix_liveview_dogapi_02][lib/phoenix_app_web/live/dog_image_live/index.exの作成]{
+defmodule PhoenixAppWeb.DogImageLive.Index do
+  use PhoenixAppWeb, :live_view
+
+  @impl true
+  def mount(_params, _session, socket) do
+    {:ok, assign(socket, dog_image_url: nil)}
+  end
+
+  @impl true
+  def handle_params(params, _url, socket) do
+    {:noreply, apply_action(socket, socket.assigns.live_action, params)}
+  end
+
+  defp apply_action(socket, :index, _params) do
+    socket
+    |> assign(:dog_image_url, nil)
+  end
+
+  @impl true
+  def handle_event("submit", %{}, socket) do
+    send( self(), {:get_doc} )
+    {:noreply, assign(socket, dog_image_url: nil)}
+  end
+
+  @impl true
+  def handle_info(  {:get_doc}, socket) do
+    {:noreply, assign(socket, dog_image_url: dog_image_url())} 
+  end
+
+  @impl true
+  defp dog_image_url do
+    url = "https://dog.ceo/api/breeds/image/random"
+    Req.get!(url).body["message"]
+  end
+end
+//}
+
+こちらは画面を作成するコードになります。
+
+//list[repl_phoenix_liveview_dogapi_03][lib/phoenix_app_web/live/dog_image_live/index.html.heexの作成]{
+<h1>Dog Image</h1>
+
+<form phx-submit="submit">
+<input type="submit" name="Fetch" onclick="blur()" />
+<p>ボタンクリックで画像が出てきます：</p>
+</form>
+
+<%= if @dog_image_url do %>
+<p> <%= @dog_image_url %> </p>
+<p> <img src={"#{@dog_image_url}"} > </p>
+<% end %>
+//}
+
+
+そして、作成した機能を利用するために、LiveView用のルーティング設定をrouter.exへ追記します。
+
+//list[repl_phoenix_liveview_dogapi_05][lib/phoenix_app_web/router.exの修正]{
+  scope "/", PhoenixAppWeb do
+    pipe_through :browser
+
+    live "/dogimage", DogImageLive.Index, :index   #←これを追記
+
+    get "/", PageController, :index
+  end
+//}
+
+さいごに、今回作成する機能への遷移用リンクを、TOPページのheexファイル中へ追記します。
+
+//list[repl_phoenix_liveview_dogapi_04][lib/phoenix_app_web/templates/page/index.html.heexの修正]{
+<a href="/dogimage">Dog Image</a>
+//}
+
+　
+
+これで準備はできました。
+画面上部のRunをクリックします。
+
+TOPページ上にある追加したリンクから、APIを呼び出す画面へ遷移します。
+
+//indepimage[repl_phoennix_api_02][Dog APIを呼び出す画面][scale=0.6]{
+//}
+
+ボタンをクリックすると犬の画像が表示されます。
+
+//indepimage[repl_phoennix_api_03][API経由で犬の画像が表示される][scale=0.6]{
+//}
+
+ボタンをクリックするたびに、犬の画像が切り替わります。
+
+//indepimage[repl_phoennix_api_04][クリックのたびに犬の画像が切り替わります][scale=0.6]{
+//}
 
 == まとめ
 
