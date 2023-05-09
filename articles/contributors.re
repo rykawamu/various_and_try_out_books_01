@@ -8,7 +8,7 @@
 
 == 著者紹介
 
-==== 第1-X章 みずりゅ / @MzRyuKa
+==== 第1-5章 みずりゅ / @MzRyuKa
 
  * https://twitter.com/MzRyuKa
 
@@ -20,6 +20,16 @@
 
 OpenAI社が公開した人工知能チャットボット
 
-==== 表紙イラスト / XXXXX 様
+==== 表紙イラスト
 
-何かしらの紹介文
+キヤノン株式会社様の提供する「おうちでつくる同人誌」の「タイトルを入れるだけ！表紙テンプレート」を利用しました。
+
+ * @<href>{https://cweb.canon.jp/pixus/special/room/doujin/sampleitem06.html}
+
+
+== 正誤表
+
+本書の正誤表を、以下のURLに用意してあります。
+動かない／気になる点などがありましたらご確認ください。
+
+ * @<href>{https://github.com/rykawamu/corrigenda/blob/master/Book_Various_and_try_out/README.md}
