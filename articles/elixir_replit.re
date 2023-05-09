@@ -3,7 +3,7 @@
 @<b>{Replit}@<fn>{replit_url}とは、ブラウザベースのコーディングプラットフォームです。
 
 50種類以上のプログラミング言語を扱っており、ブラウザベースのIDE（統合開発環境）を操作するだけで、プログラミングコードを書くことができます。
-インストールでトラブルになってしまうそれっきり、となるケースもあるので、インストールしないで済ませられるのは非常に便利ですね。
+インストールでトラブルになってしまいそれっきり、となるケースもあるので、インストールしないで済ませられるのは非常に便利ですね。
 
 また、コラボレーション機能も有しており、URLを共有するだけで複数人で同時にリアルタイムで編集を行うこともできます。
 さらに、教育向けソリューションとして「@<b>{Teams for Education}@<fn>{teams_for_education_url}@<fn>{teams_for_education_doc_url}」も提供してくれている優れものです。
@@ -16,7 +16,7 @@
 そんな優れもののReplitを利用して、自分の推し言語である「@<b>{Elixir}」への入門をいざなってみます。
 Elixirをすでに知っている人も、Replit上でコーディングしてみたいという方であれば、本章をお読みください。
 
-なお、今回はコラボレーション機能について触れませんので、あらかじめご了承ください。
+なお、今回はコラボレーション機能について触れません。あらかじめご了承ください。
 
 == Replitにアカウントを作る
 
@@ -57,7 +57,7 @@ Replとは、リアルタイムでコードを記述して実行できるイン�
 
 Replを作成するには、画面左上にある"@<b>{+Create}"ボタンをクリックします。
 
-//indepimage[replit_ex_create_01][+Createボタンをクリック][scale=0.8]{
+//indepimage[replit_ex_create_01][+Createボタンをクリック][scale=0.6]{
 //}
 
 クリック後に「@<b>{Create a Repl}」のダイアログが表示されるので、@<b>{Template}欄に利用する言語を入力します。
@@ -151,7 +151,7 @@ Repl上でのElixirの実行はうまくいきました。
 まずは、Replを作成します。
 前回同様にテンプレートでは"Elixir"を選択し、タイトルには"ReptitElixirGetConnpassEvents"とでも入力しておきましょう。
 
-//indepimage[replit_ex_create_03][タイトルの入力][scale=0.6]{
+//indepimage[replit_ex_create_05][APIからデータ取得用のRepl作成][scale=0.6]{
 //}
 
 Replを作成したら、つぎは"main.exs"の実装です。
@@ -263,7 +263,7 @@ Console欄に、「検索結果の総件数」「含まれる検索結果の件�
 
 == Phoeninx LiveViewを実行してみる
 
-Elixirの動作確認ができたので、今度は@<b>{Phoenix}を試してみましょう。
+Elixirの動作確認ができたので、今度は@<b>{Phoenix}@<fn>{phienix_01}を試してみましょう。
 
 //footnote[phienix_01][@<href>{https://www.phoenixframework.org/}]
 
@@ -405,7 +405,152 @@ index.html.heex中の「@<b>{v1.6 Changelog}」の下に、以下のコードを
 //}
 
 お疲れ様でした。
-こうして、Replit上でPhoenix LiveViewの機能が確認できました。
+Replit上でPhoenix LiveViewの機能が確認できました。
+
+=== Dog APIを呼び出してみる
+
+Phoenix LiveView側でも外部APIを呼び出す例を紹介します。
+
+「@<b>{Dog API}@<fn>{dog_api_url}」を利用して、API経由で取得した犬の画像を表示する機能を作ります。
+
+//footnote[dog_api_url][@<href>{https://dog.ceo/dog-api/documentation/random}]
+
+なお、誌面の都合上、ソースコードの提示と実行結果だけを提示します。
+補足はZennのスクラップ記事@<fn>{zenn_mzryuka_dog_api_url}に記載したので、詳細が知りたい方はご参照ください。
+
+//footnote[zenn_mzryuka_dog_api_url][@<href>{https://zenn.dev/mzryuka/scraps/3a8d2bca2d2e31}]
+
+以下、実施する手順となります。
+
+ * mix.exsの修正
+ * lib/phoenix_app_web/live/dog_image_live/index.exを作成
+ * lib/phoenix_app_web/live/dog_image_live/index.html.heexを作成
+ * lib/phoenix_app_web/router.exを修正
+ * lib/phoenix_app_web/templates/page/index.html.heexを修正
+
+それでは順番に記載します。
+
+　
+
+mix.exsの「defp deps do」へ、@<b>{Req}@<fn>{hex_lib_req_url}を追加します。
+その後、Shell欄で「mix deps.get」を実施します。
+
+//footnote[hex_lib_req_url][@<href>{https://hexdocs.pm/req/readme.html}]
+
+//list[repl_phoenix_liveview_dogapi_01][mix.exsの修正]{
+  defp deps do
+    [
+      {:phoenix, "~> 1.6.6"},
+〜（中略）〜
+      {:jason, "~> 1.2"},
+      {:req, "~> 0.3"},            # ←これを追記
+      {:plug_cowboy, "~> 2.5"}
+    ]
+  end
+//}
+
+　
+
+つづいて、Dog APIを処理するための機能を作成します。
+
+まずは、LiveView用のファイルを配置するディレクトリを用意します。
+lib/phoenix_app_web下に、「live」フォルダ、「dog_image_live」フォルダを作成します。
+その後、2つのファイルを作成します。
+
+こちらはAPIの処理を呼び出す処理です。
+
+//list[repl_phoenix_liveview_dogapi_02][lib/phoenix_app_web/live/dog_image_live/index.exの作成]{
+defmodule PhoenixAppWeb.DogImageLive.Index do
+  use PhoenixAppWeb, :live_view
+
+  @impl true
+  def mount(_params, _session, socket) do
+    {:ok, assign(socket, dog_image_url: nil)}
+  end
+
+  @impl true
+  def handle_params(params, _url, socket) do
+    {:noreply, apply_action(socket, socket.assigns.live_action, params)}
+  end
+
+  defp apply_action(socket, :index, _params) do
+    socket
+    |> assign(:dog_image_url, nil)
+  end
+
+  @impl true
+  def handle_event("submit", %{}, socket) do
+    send( self(), {:get_doc} )
+    {:noreply, assign(socket, dog_image_url: nil)}
+  end
+
+  @impl true
+  def handle_info(  {:get_doc}, socket) do
+    {:noreply, assign(socket, dog_image_url: dog_image_url())} 
+  end
+
+  @impl true
+  defp dog_image_url do
+    url = "https://dog.ceo/api/breeds/image/random"
+    Req.get!(url).body["message"]
+  end
+end
+//}
+
+こちらは画面を作成するコードになります。
+
+//list[repl_phoenix_liveview_dogapi_03][lib/phoenix_app_web/live/dog_image_live/index.html.heexの作成]{
+<h1>Dog Image</h1>
+
+<form phx-submit="submit">
+<input type="submit" name="Fetch" onclick="blur()" />
+<p>ボタンクリックで画像が出てきます：</p>
+</form>
+
+<%= if @dog_image_url do %>
+<p> <%= @dog_image_url %> </p>
+<p> <img src={"#{@dog_image_url}"} > </p>
+<% end %>
+//}
+
+
+そして、作成した機能を利用するために、LiveView用のルーティング設定をrouter.exへ追記します。
+
+//list[repl_phoenix_liveview_dogapi_05][lib/phoenix_app_web/router.exの修正]{
+  scope "/", PhoenixAppWeb do
+    pipe_through :browser
+
+    live "/dogimage", DogImageLive.Index, :index   #←これを追記
+
+    get "/", PageController, :index
+  end
+//}
+
+さいごに、今回作成する機能への遷移用リンクを、TOPページのheexファイル中へ追記します。
+
+//list[repl_phoenix_liveview_dogapi_04][lib/phoenix_app_web/templates/page/index.html.heexの修正]{
+<a href="/dogimage">Dog Image</a>
+//}
+
+　
+
+これで準備はできました。
+画面上部のRunをクリックします。
+
+TOPページ上にある追加したリンクから、APIを呼び出す画面へ遷移します。
+
+//indepimage[repl_phoennix_api_02][Dog APIを呼び出す画面][scale=0.6]{
+//}
+
+ボタンをクリックすると犬の画像が表示されます。
+
+//indepimage[repl_phoennix_api_03][API経由で犬の画像が表示される][scale=0.6]{
+//}
+
+ボタンをクリックするたびに、犬の画像が切り替わります。
+
+//indepimage[repl_phoennix_api_04][クリックのたびに犬の画像が切り替わります][scale=0.6]{
+//}
 
 == まとめ
 

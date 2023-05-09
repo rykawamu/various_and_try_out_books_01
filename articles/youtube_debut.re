@@ -162,7 +162,7 @@
  * 新たに入社した人々によって改善施策がタケノコのように湧いている@<fn>{sponser_techbookfest}
  * 他部署留学（他部署の業務／文化を理解すること）
 
-//footnote[sponser_techbookfest][本性の序盤にも記載していますが、技術書典のスポンサーになってみては？という話は私が出しています]
+//footnote[sponser_techbookfest][本章の序盤にも記載していますが、技術書典のスポンサーになってみては？という話は私が出しています]
 
 自社のエンジニアの環境がこんな感じで改善されているんだよ、というエモ話に寄せた後で「@<b>{We are hiring!}」に繋げました。
 
@@ -174,7 +174,7 @@
 実際にどんな内容だったか興味もたれた方がいれば、技術書典のYouTubeチャンネルにある動画@<fn>{youtube_url}をみていただければと思います。
 なお、具体的な自社名は、諸事情によりここでは割愛いたします。
 
-//footnote[youtube_url][@<href>{https://www.youtube.com/watch?v=chHfTyWCvw0}]
+//footnote[youtube_url][@<href>{https://www.youtube.com/playlist?list=PLKtI82pFM8xB4EHpmBJ_4ku9Z5ZFotwEJ}]
 
 == 参加後の反応
 

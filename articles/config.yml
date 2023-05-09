@@ -22,7 +22,7 @@ bookname: uramasu_various_and_try_out_books_01
 language: ja
 
 # 書名
-booktitle: {name: "会社のテックブログを再開させた経緯を書いてみた、などの話を集めた本", file-as: "reviewテンプレート"}
+booktitle: {name: "会社のテックブログを再開させた顛末、などの話を集めた本", file-as: "reviewテンプレート"}
 
 # 著者名。「, 」で区切って複数指定できる
 aut: [{name: "みずりゅ（@MzRyuKa）", file-as: "techboosterヘン"}]
